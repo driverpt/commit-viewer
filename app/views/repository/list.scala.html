@@ -1,0 +1,42 @@
+@(repositories: Seq[api.RepositoryUrl])(implicit request: Request[AnyContent])
+
+@main("Welcome to Play") {
+    <div class="row">
+        <div class="col-md-12">
+
+        @helper.form(action = routes.RepositoryController.add()) {
+            @helper.CSRF.formField
+            <div class="input-group">
+                <input type="url" class="form-control" id="url" name="url" placeholder="GitHub URL">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">Go!</button>
+                </span>
+            </div>
+        }
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>URL</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(repository <- repositories) {
+                        <tr>
+                            <th scope="row">@repository</th>
+                            <td><a href="@controllers.routes.RepositoryController.index(repository)">View commits</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+}

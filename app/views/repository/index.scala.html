@@ -1,0 +1,26 @@
+@(commits: List[api.Commit])(implicit request: Request[AnyContent])
+
+@main("Welcome to Play") {
+    <div class="row">
+        <div class="col-md-12">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>UUID</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(commit <- commits) {
+                        <tr>
+                            <th scope="row">@commit.short</th>
+                            <td>@commit.message</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+}
