@@ -3,6 +3,8 @@ organization := "com.codacy"
 
 version := "1.0-SNAPSHOT"
 
+resolvers += "Eclipse repositories" at "https://repo.eclipse.org/service/local/repositories/egit-releases/content/"
+
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala)
   .settings(libraryDependencies ++= Seq(
