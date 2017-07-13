@@ -5,9 +5,10 @@ import org.eclipse.egit.github.core.RepositoryId
 import org.eclipse.egit.github.core.service.CommitService
 
 import scala.collection.JavaConverters._
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-class GitHub(url: RepositoryUrl) {
+class GitHub(url: RepositoryUrl)
+            (implicit executionContext: ExecutionContext) {
 
   private val repositoryId = RepositoryId.createFromUrl(url.value)
 

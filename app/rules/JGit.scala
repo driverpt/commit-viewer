@@ -13,7 +13,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class JGit(repository: RepositoryUrl)
           (implicit executionContext: ExecutionContext) {
 
-   def withRepository[A](f: Git => Future[A]): Future[A] = {
+   def withRepository[A](f: File => Future[A]): Future[A] = {
     withTemporaryDirectory { directory =>
 
       Logger.info(s"Cloning from ${repository.value} to $directory")
