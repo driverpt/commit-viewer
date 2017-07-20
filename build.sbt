@@ -7,6 +7,7 @@ resolvers += "Eclipse repositories" at "https://repo.eclipse.org/service/local/r
 
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala)
+  .settings(resolvers += "Eclipse Maven" at "https://repo.eclipse.org/content/groups/releases/")
   .settings(libraryDependencies ++= Seq(
     evolutions,
     jdbc,
