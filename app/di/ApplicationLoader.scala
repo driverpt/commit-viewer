@@ -53,6 +53,7 @@ trait PersistenceComponents {
     def get[P <: BasicProfile]: DatabaseConfig[P] = slickApi.dbConfig[P](DbName("default"))
   }
 
-  lazy val fooBar= new models.FooBar(defaultDbProvider)
+  lazy val project = new models.ProjectEntity(defaultDbProvider)
+  lazy val commit = new models.CommitEntity(defaultDbProvider)
 
 }
