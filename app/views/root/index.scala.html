@@ -1,0 +1,11 @@
+@()(implicit request: Request[AnyContent])
+
+@main("Bar") {
+    @* TODO: This form should be in a class *@
+    <div>
+        <form class="form" method="POST" action="/" >
+            <input type="url" name="repositoryUrl"/>
+            <button type="submit" ></button>
+        </form>
+    </div>
+}
