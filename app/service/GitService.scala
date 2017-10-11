@@ -2,6 +2,7 @@ package service
 
 import api.{Commit, Repository}
 import di.binders.RepositoryUrl
+import exceptions.GitException
 import play.api.Logger
 
 import scala.reflect.io.{Directory, File}
@@ -20,16 +21,21 @@ class GitService(location: File) {
   }
 
   def getCommitList(repository: Repository): Seq[Commit] = {
-    val result = s"git --git-dir ${repository.localLocation.path}/.git log --oneline --no-decorate" !!
+    try {
+      val result = s"git --git-dir ${repository.localLocation.path}/.git log --oneline --no-decorate" !!
 
-    val commits = result
-      .split("\n")
-      .map {
-        _.split(" ", 2) match {
-          case Array(hash, message) => Commit(hash, message)
+      val commits = result
+        .split("\n")
+        .map {
+          _.split(" ", 2) match {
+            case Array(hash, message) => Commit(hash, message)
+          }
         }
-      }
 
-    commits
+      commits
+    } catch {
+      // Rethrow Exception to up in case something went wrong with git
+      case e: RuntimeException => throw new GitException(e)
+    }
   }
 }
