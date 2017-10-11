@@ -38,7 +38,7 @@ class ApplicationComponents(context: Context)
 
   lazy val projectController = new controllers.ProjectController(controllerComponents, gitService)
   lazy val rootController = new controllers.RootController(controllerComponents)
-  lazy val gitService = new GitService(File(context.initialConfiguration.get[String]("git.temp.clone.location")))
+  lazy val gitService = new GitService(project, commit)
 
   lazy val router = new _root_.router.Routes(httpErrorHandler, projectController, rootController, assets)
 }

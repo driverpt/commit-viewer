@@ -3,12 +3,12 @@ package service
 import api.{Commit, Repository}
 import di.binders.RepositoryUrl
 import exceptions.GitException
-import play.api.Logger
+import models.{CommitEntity, ProjectEntity}
 
 import scala.reflect.io.{Directory, File}
 import scala.sys.process._
 
-class GitService(location: File) {
+class GitService(project: ProjectEntity, commit: CommitEntity) {
   def cloneRepository(url: RepositoryUrl): Option[Repository] = {
     val tempDirectory = Directory.makeTemp()
     val result = s"git clone ${url.value} ${tempDirectory.path}/" !
