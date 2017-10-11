@@ -1,0 +1,21 @@
+@import di.binders.RepositoryUrl
+@(repositoryUrl: RepositoryUrl, commits: Seq[api.Commit])(implicit request: Request[AnyContent])
+
+@main("Project Info") {
+    <div class="repository">
+        <div class="title">
+            <h1>@repositoryUrl.value</h1>
+        </div>
+        @if(commits.isEmpty) {
+            <h3>No Commits for this repository</h3>
+        } else {
+            <div class="commits">
+                <ul>
+                @for(commit <- commits) {
+                    <li>@commit.uuid : @commit.message</li>
+                }
+                </ul>
+            </div>
+        }
+    </div>
+}
