@@ -13,5 +13,5 @@ package object api {
     def urlEncoded: String = URLEncoder.encode(value, StandardCharsets.US_ASCII.name())
   }
 
-  final case class Repository(url: RepositoryUrl, localLocation: File, name: String)
+  final case class Project(url: RepositoryUrl, localLocation: Option[File], name: String)
 }

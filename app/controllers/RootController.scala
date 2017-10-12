@@ -5,16 +5,17 @@ import java.nio.charset.StandardCharsets
 
 import api.RepositoryUrl
 import play.api.mvc._
+import service.GitService
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class RootController(cc: ControllerComponents) extends AbstractController(cc) {
+class RootController(cc: ControllerComponents, gitService: GitService) extends AbstractController(cc) {
 
   implicit lazy val ec: ExecutionContext = cc.executionContext
 
   def index(): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
     Future {
-      Ok(views.html.root.index())
+      Ok(views.html.root.index(gitService.getAllProjects))
     }
   }
 
