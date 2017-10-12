@@ -5,7 +5,7 @@ import slick.jdbc.{JdbcBackend, JdbcProfile}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-final case class CommitRow(projectId: String, commitId: String, commitMessage: String)
+final case class CommitRow(projectId: String, commitId: String, commitMessage: String, timestamp: Long)
 
 class CommitEntity(protected val dbConfigProvider: DatabaseConfigProvider)
                   (implicit ec: ExecutionContext) extends HasDatabaseConfigProvider[JdbcProfile] {
@@ -18,7 +18,7 @@ class CommitEntity(protected val dbConfigProvider: DatabaseConfigProvider)
 
   class CommitTable(tag: Tag) extends Table[CommitRow](tag, "commits") {
     // Every table needs a * projection with the same type as the table's type parameter
-    def * = (projectId, commitId, commitMessage) <> (CommitRow.tupled, CommitRow.unapply)
+    def * = (projectId, commitId, commitMessage, commitTime) <> (CommitRow.tupled, CommitRow.unapply)
 
     def projectId = column[String]("project_id")
 
@@ -26,6 +26,7 @@ class CommitEntity(protected val dbConfigProvider: DatabaseConfigProvider)
 
     def commitMessage = column[String]("commit_message")
 
+    def commitTime = column[Long]("timestamp")
   }
 
   lazy val CommitTable = new TableQuery(tag => new CommitTable(tag))
@@ -34,7 +35,7 @@ class CommitEntity(protected val dbConfigProvider: DatabaseConfigProvider)
     db.run(CommitTable ++= row)
 
   def getCommitsForProject(projectId: String): Future[Seq[CommitRow]] = {
-    val filter: Query[CommitTable, CommitRow, Seq] = CommitTable.filter(_.projectId === projectId)
+    val filter: Query[CommitTable, CommitRow, Seq] = CommitTable.filter(_.projectId === projectId).sortBy(_.commitTime.desc)
     db.run(filter.result)
   }
 }

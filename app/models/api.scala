@@ -2,7 +2,7 @@ import scala.reflect.io.File
 
 package object api {
 
-  final case class Commit(uuid: String, message: String) {
+  final case class Commit(uuid: String, message: String, timestamp: Long = 0) {
     def short: String = uuid.take(7)
   }
 

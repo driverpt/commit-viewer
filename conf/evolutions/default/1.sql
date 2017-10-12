@@ -16,6 +16,7 @@ CREATE TABLE "commits"
   commit_id VARCHAR(255) NOT NULL,
   -- I'm not sure if commit_id should be UNIQUE
   commit_message VARCHAR(2048) NOT NULL,
+  timestamp INTEGER NOT NULL,
   CONSTRAINT pk_commits PRIMARY KEY (project_id, commit_id),
   CONSTRAINT fk_projects FOREIGN KEY (project_id) REFERENCES "projects"(id)
 );
