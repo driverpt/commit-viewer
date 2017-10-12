@@ -2,6 +2,7 @@
 
 CREATE TABLE "projects"
 (
+  -- I don't feel confortable in having an url as a Primary Key.
   id     VARCHAR(255) NOT NULL,
   CONSTRAINT pk_projects PRIMARY KEY (id)
 );
