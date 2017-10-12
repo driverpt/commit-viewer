@@ -20,7 +20,7 @@ class ProjectEntity(protected val dbConfigProvider: DatabaseConfigProvider)
     // Every table needs a * projection with the same type as the table's type parameter
     def * = projectId <> (ProjectRow.apply, ProjectRow.unapply)
 
-    def projectId = column[String]("project_id")
+    def projectId = column[String]("id")
   }
 
   lazy val ProjectTableQuery = new TableQuery(tag => new ProjectTable(tag))
