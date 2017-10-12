@@ -29,7 +29,10 @@ class ProjectController(cc: ControllerComponents,
       val commitList = gitService.getCommitList(repo.get)
 
       // Since this is no longer needed, let's just delete the cloned repo
-      repo.get.localLocation.deleteRecursively()
+      val localLocation = repo.get.localLocation
+      if (localLocation.isDefined) {
+        localLocation.get.deleteRecursively()
+      }
 
       Ok(views.html.project.index(repositoryUrl, commitList))
     }
