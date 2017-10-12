@@ -1,7 +1,7 @@
 @import api.Project
 @(projects: Seq[Project])(implicit request: Request[AnyContent])
 
-@main("Bar") {
+@main("Projects") {
     @* TODO: This form should be in a class *@
     <div class="row">
         <div class="col-lg-12">
@@ -23,9 +23,7 @@
             <div class="col-sm-6 col-md-4">
                 <div class="thumbnail">
                     <div class="caption">
-                        <h5>@{
-                            project.url.value
-                        }</h5>
+                        <h5>@{project.url.value}</h5>
                         <p><a href="/project/@{project.url.urlEncoded}" class="btn btn-primary" role="button">Details</a>
                         </p>
                     </div>
