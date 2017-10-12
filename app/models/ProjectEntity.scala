@@ -25,6 +25,8 @@ class ProjectEntity(protected val dbConfigProvider: DatabaseConfigProvider)
 
   lazy val ProjectTableQuery = new TableQuery(tag => new ProjectTable(tag))
 
+  def listAll(): Future[Seq[ProjectRow]] = db.run(ProjectTableQuery.result)
+
   def create(row: List[ProjectRow]): Future[Option[Int]] =
     db.run(ProjectTableQuery ++= row)
 
