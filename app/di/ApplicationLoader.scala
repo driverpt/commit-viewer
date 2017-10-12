@@ -9,6 +9,8 @@ import play.api.{Application, BuiltInComponentsFromContext, LoggerConfigurator, 
 import play.filters.HttpFiltersComponents
 import service.GitService
 import slick.basic.{BasicProfile, DatabaseConfig}
+import util.{GenericGitHandler, GitHandlerPipeline}
+import util.util.handler.GitHubHandler
 
 import scala.concurrent.ExecutionContext
 import scala.reflect.io.File
@@ -38,9 +40,11 @@ class ApplicationComponents(context: Context)
 
   lazy val projectController = new controllers.ProjectController(controllerComponents, gitService)
   lazy val rootController = new controllers.RootController(controllerComponents, gitService)
-  lazy val gitService = new GitService(project, commit)
+  lazy val gitService = new GitService(project, commit, gitPipeline)
 
   lazy val router = new _root_.router.Routes(httpErrorHandler, projectController, rootController, assets)
+
+  lazy val gitPipeline = new GitHandlerPipeline().withHandler(new GitHubHandler).withHandler(new GenericGitHandler())
 }
 
 trait PersistenceComponents {
