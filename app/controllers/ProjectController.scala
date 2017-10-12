@@ -2,6 +2,7 @@ package controllers
 
 import java.net.URI
 
+import api.Project
 import di.binders.RepositoryUrl
 import play.api.mvc._
 import service.GitService
@@ -20,19 +21,7 @@ class ProjectController(cc: ControllerComponents,
         BadRequest("Invalid GitHub URL")
       }
 
-      // We should add try/catch to check if repository does not exist and show a beautiful "Not found" page
-      val repo = gitService.cloneRepository(repositoryUrl)
-      if (repo.isEmpty) {
-        BadRequest("Invalid Git Repo")
-      }
-
-      val commitList = gitService.getCommitList(repo.get)
-
-      // Since this is no longer needed, let's just delete the cloned repo
-      val localLocation = repo.get.localLocation
-      if (localLocation.isDefined) {
-        localLocation.get.deleteRecursively()
-      }
+      val commitList = gitService.getCommitList(Project(repositoryUrl, None, ""))
 
       Ok(views.html.project.index(repositoryUrl, commitList))
     }
